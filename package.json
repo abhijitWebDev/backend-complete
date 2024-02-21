@@ -4,12 +4,17 @@
   "description": "backend aim at chai aur code channel",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "keywords": [
     "Javascript",
     "Backend"
   ],
   "author": "Abhijit Mone",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
 }
