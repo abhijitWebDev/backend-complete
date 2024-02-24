@@ -9,29 +9,27 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET 
 });
 const uploadOnCloudinary = async (localFilePath) => {
+    console.log("localFilePath from cloudinary line 12", localFilePath);
     try {
         if(!localFilePath) throw new Error("File path is required");
         //upload the file on cloudinary
         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: "auto",
-
-        })
+         });
         // file has been uploaded successfully
-        console.log("File has been uploaded successfully", response.url);
+        fs.unlinkSync(localFilePath); // remove the locally saved temp file
         return response;
         
     } catch (error) {
-        fs.unlinkSync(localFilePath); //remove the locally saved temp file as the upload operation got failed
-        return null
+        if (fs.existsSync(localFilePath)) {
+            fs.unlinkSync(localFilePath); // remove the locally saved temp file as the upload operation got failed
+        } else {
+            console.log(`File does not exist: ${localFilePath}`);
+        }
         
     }
 
 };
 
-
-
-cloudinary.uploader.upload("https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
-  { public_id: "olympic_flag" }, 
-  function(error, result) {console.log(result); });
 
   export {uploadOnCloudinary}
